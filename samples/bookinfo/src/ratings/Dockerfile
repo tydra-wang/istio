@@ -15,9 +15,15 @@
 FROM node:12.18.1-slim
 
 #hadolint ignore=DL3008
-RUN apt-get update \
+RUN sed -i s/deb.debian.org/mirrors.aliyun.com/g /etc/apt/sources.list \
+    && sed -i s/security.debian.org/mirrors.aliyun.com/g /etc/apt/sources.list \
+    && apt-get update \
     && apt-get install curl --no-install-recommends -y \
     && rm -rf /var/lib/apt/lists/*
+
+# RUN apt-get update \
+#     && apt-get install curl --no-install-recommends -y \
+#     && rm -rf /var/lib/apt/lists/*
 
 ARG service_version
 ENV SERVICE_VERSION ${service_version:-v1}
